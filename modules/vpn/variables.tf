@@ -9,24 +9,24 @@ variable "environment" {
 }
 
 variable "vpc_id" {
-  description = "VPC ID where Jenkins will be launched"
+  description = "VPC ID where the VPN server will be launched"
   type        = string
 }
 
 variable "subnet_id" {
-  description = "Subnet ID to launch Jenkins in (use public subnet)"
+  description = "Public subnet ID to launch the VPN server in"
   type        = string
 }
 
 variable "ami_id" {
-  description = "AMI ID for Jenkins EC2 instance"
+  description = "AMI ID for the VPN EC2 instance (Ubuntu 22.04)"
   type        = string
 }
 
 variable "instance_type" {
-  description = "EC2 instance type for Jenkins"
+  description = "EC2 instance type for VPN server"
   type        = string
-  default     = "t3.large"
+  default     = "t3.small"
 }
 
 variable "key_name" {
@@ -37,18 +37,23 @@ variable "key_name" {
 variable "root_volume_size" {
   description = "Root volume size in GB"
   type        = number
-  default     = 100
+  default     = 20
 }
 
 variable "allowed_ssh_cidrs" {
-  description = "CIDR blocks allowed to SSH into Jenkins"
+  description = "CIDR blocks allowed to SSH into VPN server"
   type        = list(string)
 }
 
-variable "allowed_ui_cidrs" {
-  description = "CIDR blocks allowed to access Jenkins UI on port 8080"
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
+variable "vpn_client_cidr" {
+  description = "CIDR block assigned to VPN clients"
+  type        = string
+  default     = "10.8.0.0/24"
+}
+
+variable "vpc_cidr" {
+  description = "VPC CIDR block — pushed to VPN clients as a route"
+  type        = string
 }
 
 variable "tags" {

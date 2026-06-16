@@ -9,24 +9,24 @@ variable "environment" {
 }
 
 variable "vpc_id" {
-  description = "VPC ID where Jenkins will be launched"
+  description = "VPC ID where devtools will be launched"
   type        = string
 }
 
 variable "subnet_id" {
-  description = "Subnet ID to launch Jenkins in (use public subnet)"
+  description = "Subnet ID to launch devtools in (use private subnet)"
   type        = string
 }
 
 variable "ami_id" {
-  description = "AMI ID for Jenkins EC2 instance"
+  description = "AMI ID for devtools EC2 instance"
   type        = string
 }
 
 variable "instance_type" {
-  description = "EC2 instance type for Jenkins"
+  description = "EC2 instance type for devtools"
   type        = string
-  default     = "t3.large"
+  default     = "t3.medium"
 }
 
 variable "key_name" {
@@ -37,18 +37,12 @@ variable "key_name" {
 variable "root_volume_size" {
   description = "Root volume size in GB"
   type        = number
-  default     = 100
+  default     = 50
 }
 
 variable "allowed_ssh_cidrs" {
-  description = "CIDR blocks allowed to SSH into Jenkins"
+  description = "CIDR blocks allowed to SSH into devtools"
   type        = list(string)
-}
-
-variable "allowed_ui_cidrs" {
-  description = "CIDR blocks allowed to access Jenkins UI on port 8080"
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
 }
 
 variable "tags" {

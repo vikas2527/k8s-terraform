@@ -9,24 +9,30 @@ variable "environment" {
 }
 
 variable "vpc_id" {
-  description = "VPC ID where Jenkins will be launched"
+  description = "VPC ID where k8s masters will be launched"
   type        = string
 }
 
-variable "subnet_id" {
-  description = "Subnet ID to launch Jenkins in (use public subnet)"
-  type        = string
+variable "subnet_ids" {
+  description = "List of private subnet IDs to launch masters in"
+  type        = list(string)
 }
 
 variable "ami_id" {
-  description = "AMI ID for Jenkins EC2 instance"
+  description = "AMI ID for k8s master (baked by Packer)"
   type        = string
 }
 
 variable "instance_type" {
-  description = "EC2 instance type for Jenkins"
+  description = "EC2 instance type for k8s master"
   type        = string
-  default     = "t3.large"
+  default     = "t3.medium"
+}
+
+variable "instance_count" {
+  description = "Number of master nodes (1 for dev, 3 for prod)"
+  type        = number
+  default     = 1
 }
 
 variable "key_name" {
@@ -37,18 +43,17 @@ variable "key_name" {
 variable "root_volume_size" {
   description = "Root volume size in GB"
   type        = number
-  default     = 100
+  default     = 50
+}
+
+variable "vpc_cidr" {
+  description = "VPC CIDR block — allowed for internal cluster communication"
+  type        = string
 }
 
 variable "allowed_ssh_cidrs" {
-  description = "CIDR blocks allowed to SSH into Jenkins"
+  description = "CIDR blocks allowed to SSH into master nodes"
   type        = list(string)
-}
-
-variable "allowed_ui_cidrs" {
-  description = "CIDR blocks allowed to access Jenkins UI on port 8080"
-  type        = list(string)
-  default     = ["0.0.0.0/0"]
 }
 
 variable "tags" {
